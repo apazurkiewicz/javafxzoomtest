@@ -1,0 +1,48 @@
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.22.0'
+    id "org.javamodularity.moduleplugin" version "1.5.0"
+}
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.fxml']
+}
+
+sourceCompatibility = 14
+targetCompatibility = 14
+
+
+def defaultEncoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
+
+application.mainClassName('testplatform/testplatform.Main')
+
+group 'testplatform'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation files('src/libs/Jama.jar')
+}
+
+
+jlink {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'DimConIt'
+    }
+    jpackage {
+        imageName = 'DimConIT'
+        appVersion = 3.0
+        installerName = 'DimConIT-installer'
+        installerType = 'exe'
+        installerOptions = ['--win-dir-chooser','--win-menu', '--win-shortcut']
+        imageOptions += ['--icon', 'src/main/resources/pl/dimconit/images/main.ico']
+    }
+}

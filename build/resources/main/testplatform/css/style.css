@@ -1,0 +1,4 @@
+.my-circle {
+    -fx-stroke: yellow;
+    -fx-fill: rgba(255,145,0,0.1);
+}
